@@ -3,6 +3,7 @@ import React, { useState } from "react";
 
 type Props = {
   tags: string[];
+  onSelectTags: () => string[];
 };
 
 export default function Toolbar(props: Props) {

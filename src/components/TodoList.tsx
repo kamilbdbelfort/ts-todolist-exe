@@ -3,7 +3,6 @@ import React, { useState } from "react";
 
 import { Item } from "../model"; // we need to import the type
 import TodoItem from "../components/TodoItem";
-import Toolbar from "./Toolbar";
 
 export default function TodoList() {
   // note the <Item[]> syntax!
@@ -21,6 +20,7 @@ export default function TodoList() {
       isDone: false,
     },
   ]);
+  const [requiredTags, setRequiredTags] = useState<string[]>([]);
 
   const toggle = (id: number) => {
     // TODO implement. Tip: use map
@@ -38,9 +38,52 @@ export default function TodoList() {
     }
   }
 
+  const selectedTags = combinedTags;
+
+  const uniqueTags = selectedTags.filter(function (item, pos) {
+    return selectedTags.indexOf(item) === pos;
+  });
+
+  const newList = () => {
+    let selectedList = [];
+    for (let x = 0; x < list.length; x++) {
+      return (selectedList = list[x].tags.filter((tag) =>
+        requiredTags.includes(tag)
+      ));
+    }
+  };
+
+  const changeStyle = (e: any) => {
+    if (e !== null) {
+      e.target.style.fontWeight =
+        e.target.style.fontWeight === "bold" ? "" : "bold";
+      if (requiredTags === null) {
+        return setRequiredTags(e.target.value);
+      } else if (requiredTags !== null) {
+        const newRequiredTags = requiredTags.filter(
+          (tag) => tag !== e.target.value
+        );
+        if (newRequiredTags.length === requiredTags.length) {
+          newRequiredTags.push(e.target.value);
+        }
+        return setRequiredTags(newRequiredTags);
+      }
+    }
+  };
+
+  newList();
+
   return (
     <p>
-      <Toolbar tags={combinedTags} />
+      <p style={{ fontSize: "24px" }}>
+        Filter by tag:{" "}
+        {uniqueTags.map((tag, index) => (
+          <button id={tag} value={tag} key={index} onClick={changeStyle}>
+            {" "}
+            {tag}{" "}
+          </button>
+        ))}
+      </p>
       {list.map((item) => {
         return (
           <TodoItem
