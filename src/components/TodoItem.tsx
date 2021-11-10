@@ -20,9 +20,7 @@ export default function TodoItem(props: Props) {
     <p>
       <span onClick={props.toggleDone}>
         {" "}
-        {props.item.isDone
-          ? `[${" "}X${" "}]`
-          : `[${" "}${" "}${" "}${" "}${" "}]`}{" "}
+        {props.item.isDone ? `[ X ]` : `[    ]`}{" "}
       </span>
       {props.item.isDone ? (
         <span style={{ fontSize: "24px", fontWeight: "bold" }}>
